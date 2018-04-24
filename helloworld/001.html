@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title>Hello World</title>
+	<script type="text/javascript" src="jtopo-0.4.8-min.js"></script> 
+    <script src="jquery-3.3.1.min.js" type="text/javascript"></script> 
+    <script src="toolbar.js" type="text/javascript"></script>   
+	<script type="text/javascript">
+            // var canvas = document.getElementById('canvas'); 
+            // var stage = new JTopo.Stage(canvas); // 创建一个舞台对象
+            // var scene = new JTopo.Scene(stage); // 创建一个场景对象
+            
+            // var node = new JTopo.Node("Hello");    // 创建一个节点
+            // node.setLocation(300,200);    // 设置节点坐标                    
+            // scene.add(node); // 放入到场景中
+
+
+            $(document).ready(function(){
+            var canvas = document.getElementById('canvas');            
+            var stage = new JTopo.Stage(canvas);
+            //显示工具栏
+            showJTopoToobar(stage);
+            var scene = new JTopo.Scene(stage);
+            scene.background = 'bg.jpg';
+            
+            var node = new JTopo.Node("Hello");                            
+            node.setLocation(409, 269);
+            scene.add(node);
+            node.mousedown(function(event){
+                if(event.button == 2){
+                    node.text = '按下右键';                    
+                }else if(event.button == 1){
+                    node.text = '按下中键';                    
+                }else if(event.button == 0){
+                    node.text = '按下左键';    
+                }                
+            });
+            
+            node.mouseup(function(event){                
+                if(event.button == 2){
+                    node.text = '松开右键';                    
+                }else if(event.button == 1){
+                    node.text = '松开中键';                    
+                }else if(event.button == 0){
+                    node.text = '松开左键';    
+                }
+            });    
+            node.click(function(event){                    
+                console.log("单击");                
+            });    
+            node.dbclick(function(event){                
+                console.log("双击");                
+            });
+            node.mousedrag(function(event){                
+                console.log("拖拽");
+            });    
+            node.mouseover(function(event){                
+                console.log("mouseover");                
+            });
+            node.mousemove(function(event){                
+                console.log("mousemove");                
+            });    
+            node.mouseout(function(event){                
+                console.log("mouseout");                
+            });    
+        });
+
+        </script>
+</head>
+<body>
+    <canvas id="canvas" width="900" height="800"></canvas> 
+</body>
+</html>

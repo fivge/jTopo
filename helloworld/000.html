@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title>Hello World</title>
+	<script type="text/javascript" src="jtopo-0.4.8-min.js"></script> 
+    <script src="jquery-3.3.1.min.js" type="text/javascript"></script> 
+    <script src="toolbar.js" type="text/javascript"></script>   
+	<script type="text/javascript">
+        $(document).ready(function() {  
+             var canvas = document.getElementById('canvas'); 
+             var stage = new JTopo.Stage(canvas); // 创建一个舞台对象
+             var scene = new JTopo.Scene(stage); // 创建一个场景对象
+       
+            //default node 
+//             var node = new JTopo.Node("Hello");    // 创建一个节点
+//             node.setLocation(300,200);    // 设置节点坐标                    
+//             scene.add(node); // 放入到场景中
+            
+            
+            //custom node 
+             var node = new JTopo.Node("Hello2");    // 创建一个节点
+            node.setLocation(400,500);    // 设置节点坐标                    
+//            node.rotate = Math.random(); // 旋转角度
+//            node.scaleX = Math.random(); // 水平方向的缩放
+//            node.scaleY = Math.random(); // 垂直方向的缩放
+//            node.alpha = Math.random();  // 透明度
+            node.setImage('logo.png'); // 设置图片
+            scene.add(node);
+            
+    
+            //default link
+            var nodeFrom = new JTopo.Node("from");
+            nodeFrom.setLocation(200,200);
+            scene.add(nodeFrom);
+            
+            var nodeTo = new JTopo.Node("To");
+            nodeTo.setLocation(300,200);
+            scene.add(nodeTo);
+            
+            var link = new JTopo.Link(nodeFrom, nodeTo); // 增加连线
+            scene.add(link);
+            
+        });
+        </script>
+</head>
+<body>
+    <canvas id="canvas" width="900" height="800"></canvas> 
+</body>
+</html>
