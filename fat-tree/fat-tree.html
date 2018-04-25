@@ -2,8 +2,8 @@
 <html>
   <head>
 	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
-	<meta name="Viewport" content="width=device-width; user-scaleable=no; initial-scale=1.0"/>
-	<title>jTopo Demo</title>	
+<!--	<meta name="Viewport" content="width=device-width; user-scaleable=no; initial-scale=1.0"/>-->
+	<title>基于SDN的数据中心链路速率调节系统</title>	
 	<script type="text/javascript" src="./js/jquery-3.3.1.min.js"></script>
 	<script type="text/javascript" src="./js/jtopo-0.4.8-min.js"></script>
 	<script type="text/javascript" src="./js/toolbar.js"></script>
@@ -18,6 +18,28 @@
 			var scene = new JTopo.Scene();	
 			scene.background = './img/bg.jpg';
 			
+            
+            
+            // 添加容器
+            function container(text){
+                var container = new JTopo.Container();
+                container.text=text;
+			    container.textPosition = 'Middle_Center';
+			    container.fontColor = '100,255,0';
+			    container.font = '18pt 微软雅黑';
+			    container.borderColor = '255,0,0';
+			    container.borderRadius = 30; // 圆角
+			    scene.add(container);
+                return container;
+            }
+            var c1 = container('');
+            var c2 = container('');
+            var c3 = container('');
+            var c4 = container('');
+//            container.add(node);
+            
+            
+            //结点设置
 			function node(x, y, img, name){
 				var node = new JTopo.Node(name);
 				node.setImage('./img/topo/' + img, true);				
@@ -26,139 +48,224 @@
 				return node;
 			}				
 			
-			function linkNode(nodeA, nodeZ){
-				var link = new JTopo.FoldLink(nodeA, nodeZ);
-				link.lineWidth = 3;
-				link.strokeColor = '255,255,0';
+            
+            // 添加文字
+            
+            function textNode(x, y, text){
+                var textNode = new JTopo.TextNode();
+                textNode.text=text;
+                textNode.font = 'bold 16px 微软雅黑';
+			    textNode.setLocation(x, y);
+				scene.add(textNode);
+				return textNode;
+			}	
+            
+            var t1 = textNode(1200,200,'核心交换机');
+            var t2 = textNode(1200,300,'聚合交换机');
+            var t3 = textNode(1200,400,'边缘交换机');
+            var t4 = textNode(1200,500,'主机');
+            
+            
+            
+//			function linkFoldNode(nodeA, nodeZ){               //垂直,水平连接
+//				var link = new JTopo.FoldLink(nodeA, nodeZ);
+//				link.lineWidth = 2;
+//				link.strokeColor = '176,196,222';
+//				scene.add(link);
+//				return link;
+//			}
+            
+			function linkNode(nodeA, nodeZ){                 //直线连接
+				var link = new JTopo.Link(nodeA, nodeZ);
+				link.lineWidth = 2;
+				link.strokeColor = '176,196,222';
 				scene.add(link);
 				return link;
 			}
-			
-            var s01 = node(57, 200, 'gray.png', 's01');
-            var s02 = node(57, 200, 'gray.png', 's02');
-            var s03 = node(57, 200, 'gray.png', 's03');
-            var s04 = node(57, 200, 'gray.png', 's04');
             
-            var s11 = node(57, 200, 'gray.png', 's01');
-            var s12 = node(57, 200, 'gray.png', 's02');
-            var s13 = node(57, 200, 'gray.png', 's03');
-            var s14 = node(57, 200, 'gray.png', 's04');
+            //交换机和主机
+            var s01 = node(300, 200, 'yellow.png', 's01');
+            var s02 = node(540, 200, 'yellow.png', 's02');
+            var s03 = node(780, 200, 'yellow.png', 's03');
+            var s04 = node(1020, 200, 'yellow.png', 's04');
+            s04.alarm="50M";
+            s04.alarmColor = '0,255,0';
             
-            var s15 = node(57, 200, 'gray.png', 's01');
-            var s16 = node(57, 200, 'gray.png', 's02');
-            var s17 = node(57, 200, 'gray.png', 's03');
-            var s18 = node(57, 200, 'gray.png', 's04');
+            var s11 = node(240, 300, 'green.png', 's11');
+            var s12 = node(360, 300, 'green.png', 's12');
+            var s13 = node(480, 300, 'green.png', 's13');
+            s13.alarm="10M";
+            var s14 = node(600, 300, 'green.png', 's14');
             
-            var s21 = node(57, 200, 'gray.png', 's01');
-            var s22 = node(57, 200, 'gray.png', 's02');
-            var s23 = node(57, 200, 'gray.png', 's03');
-            var s24 = node(57, 200, 'gray.png', 's04');
+            var s15 = node(720, 300, 'green.png', 's15');
+            var s16 = node(840, 300, 'green.png', 's16');
+            s16.alarm="30M";
+            s16.alarmColor = '255,140,0';
+            var s17 = node(960, 300, 'green.png', 's17');
+            s17.alarm="10M";
+            var s18 = node(1080, 300, 'green.png', 's18');
             
-            var s25 = node(57, 200, 'gray.png', 's01');
-            var s26 = node(57, 200, 'gray.png', 's02');
-            var s27 = node(57, 200, 'gray.png', 's03');
-            var s28 = node(57, 200, 'gray.png', 's04');
+            var s21 = node(240, 400, 'gray.png', 's21');
+            s21.alarm="10M";
+            var s22 = node(360, 400, 'gray.png', 's22');
+            var s23 = node(480, 400, 'gray.png', 's23');
+            s23.alarm="1M";
+            var s24 = node(600, 400, 'gray.png', 's24');
+            
+            var s25 = node(720, 400, 'gray.png', 's25');
+            s25.alarm="30M";
+            s25.alarmColor = '255,140,0';
+            var s26 = node(840, 400, 'gray.png', 's26');
+            var s27 = node(960, 400, 'gray.png', 's27');
+            var s28 = node(1080, 400, 'gray.png', 's28');
             
             var h11 = node(200, 500, 'blue.png', 'h11');
             var h12 = node(260, 500, 'blue.png', 'h12');
             var h13 = node(320, 500, 'blue.png', 'h13');
             var h14 = node(380, 500, 'blue.png', 'h14');
-            var h21 = node(440, 500, 'blue.png', 'h15');
-            var h22 = node(500, 500, 'blue.png', 'h16');
-            var h23 = node(560, 500, 'blue.png', 'h17');
-            var h24 = node(620, 500, 'blue.png', 'h18');
-            var h31 = node(380, 500, 'blue.png', 'h14');
-            var h32 = node(440, 500, 'blue.png', 'h15');
-            var h33 = node(500, 500, 'blue.png', 'h16');
-            var h34 = node(560, 500, 'blue.png', 'h17');
-            var h41 = node(620, 500, 'blue.png', 'h18');
-            var h42 = node(380, 500, 'blue.png', 'h14');
-            var h43 = node(440, 500, 'blue.png', 'h15');
-            var h44 = node(500, 500, 'blue.png', 'h16');
+            var h21 = node(440, 500, 'blue.png', 'h21');
+            var h22 = node(500, 500, 'blue.png', 'h22');
+            var h23 = node(560, 500, 'blue.png', 'h23');
+            var h24 = node(620, 500, 'blue.png', 'h24');
+            var h31 = node(680, 500, 'blue.png', 'h31');
+            var h32 = node(740, 500, 'blue.png', 'h32');
+            var h33 = node(800, 500, 'blue.png', 'h33');
+            var h34 = node(860, 500, 'blue.png', 'h34');
+            var h41 = node(920, 500, 'blue.png', 'h41');
+            var h42 = node(980, 500, 'blue.png', 'h42');
+            var h43 = node(1040, 500, 'blue.png', 'h43');
+            var h44 = node(1100, 500, 'blue.png', 'h44');
+            
+            
+            // 核心层和聚合层连接
+
+            linkNode(s01, s11);
+            linkNode(s01, s13);
+            linkNode(s01, s15);
+            linkNode(s01, s17);
+
+            linkNode(s02, s11);
+            linkNode(s02, s13);
+            linkNode(s02, s15);
+            linkNode(s02, s17);
+            
+            linkNode(s03, s12);
+            linkNode(s03, s14);
+            linkNode(s03, s16);
+            linkNode(s03, s18);
+            
+            linkNode(s04, s12);
+            linkNode(s04, s14);
+            linkNode(s04, s16);
+//            linkNode(s04, s18);
+            scene.add(new JTopo.Link(s04, s18));
+
+            //聚合层和边缘层连接
+
+            linkNode(s11, s21);
+            linkNode(s11, s22);
+            linkNode(s12, s21);
+            linkNode(s12, s22);
+            
+            linkNode(s13, s23);
+            linkNode(s13, s24);
+            linkNode(s14, s23);
+            linkNode(s14, s24);
+
+            linkNode(s15, s25);
+            linkNode(s15, s26);
+            linkNode(s16, s25);
+            linkNode(s16, s26);
+            
+            function linkNode2(nodeA, nodeZ){                 //直线连接
+				var link2 = new JTopo.Link(nodeA, nodeZ);
+				link2.lineWidth = 4;
+				link2.strokeColor = '255,255,0';
+				scene.add(link2);
+				return link2;
+			}
+
+            linkNode2(s17, s27);
+//            linkNode(s17, s27);
+            linkNode(s17, s28);
+            linkNode(s18, s27);
+            linkNode(s18, s28);
+
+            //边缘层和主机连接
+
+            linkNode(s21, h11);
+            linkNode(s21, h12);
+            linkNode(s22, h13);
+            linkNode(s22, h14);
+
+            linkNode(s23, h21);
+            linkNode(s23, h22);
+            linkNode(s24, h23);
+            linkNode(s24, h24);
+
+            linkNode(s25, h31);
+            linkNode(s25, h32);
+            linkNode(s26, h33);
+            linkNode(s26, h34);
+
+            linkNode(s27, h41);
+            linkNode(s27, h42);
+            linkNode(s28, h43);
+            linkNode(s28, h44);
+
+            //容器
+//            container.add(s11);
+            c1.add(s11);
+            c1.add(s12);
+            c1.add(s21);
+            c1.add(s22);
+            
+            c2.add(s13);
+            c2.add(s14);
+            c2.add(s23);
+            c2.add(s24);
+            
+            c3.add(s15);
+            c3.add(s16);
+            c3.add(s25);
+            c3.add(s26);
+            
+            c4.add(s17);
+            c4.add(s18);
+            c4.add(s27);
+            c4.add(s28);
             
             
             
             
+            setInterval(function(){
+				if(s13.alarm == '10M'){
+					s13.alarm = null;
+				}else{
+					s13.alarm = '10M';
+				}
+			}, 600);
             
+            setInterval(function(){
+				if(s17.alarm == '10M'){
+					s17.alarm = null;
+				}else{
+					s17.alarm = '10M';
+				}
+			}, 600);
             
+            setInterval(function(){
+				if(s23.alarm == '1M'){
+					s23.alarm = null;
+				}else{
+					s23.alarm = '1M';
+				}
+			}, 600);
             
-            
-            
-            
-            
-            
-			var s1 = node(49, 41, 'satellite_antenna.png', 'Satellitte Feed');
-			var s2 = node(57, 136, 'antenna.png', 'Off air');
-            var s22 = node(57, 136, 'antenna.png', 'Off air111');
-			var s3 = node(57, 251, 'msc.png', 'Programing');
-			
-			var r1 = node(143, 43, 'router.png');
-			var r2 = node(143, 63, 'router.png');
-			r2.alarm = '2 W';
-			var r3 = node(143, 83, 'router.png');
-			var r4 = node(143, 103, 'router.png');
-			var r5 = node(143, 123, 'router.png', 'Encoder');
-			
-			var r6 = node(243, 123, 'router.png', 'Scrambler');
-			linkNode(r1, r6);
-			linkNode(r2, r6);
-			linkNode(r3, r6);
-			linkNode(r4, r6);
-			linkNode(r5, r6);
-			
-			var r7 = node(143, 180, 'router.png');
-			var r8 = node(143, 200, 'router.png');
-			linkNode(r7, r6);
-			linkNode(r8, r6);
-			
-			var dataCloud = node(316, 113, 'cloud.png');
-			scene.add(new JTopo.Link(dataCloud, r6));
-			
-			var tw130 = node(436, 107, 'tw130.png');
-			scene.add(new JTopo.Link(tw130, dataCloud));
-			
-			var pstn = node(316, 176, 'cloud.png');
-			linkNode(pstn, tw130);
-			
-			var wdm = node(525, 114, 'wdm.png', 'WDM');
-			scene.add(new JTopo.Link(wdm, tw130));
-			
-			var testing = node(568, 128, 'testing.png');
-			testing.alarm = '1 M';
-			scene.add(new JTopo.Link(testing,wdm));
-			
-			var wdm2 = node(607, 114, 'wdm.png', 'WDM');
-			scene.add(new JTopo.Link(wdm2, testing));
-			
-			var mainframe = node(654, 152, 'mainframe.png');
-			linkNode(mainframe, wdm2);			
-			
-			var phone = node(738, 173, 'phone.png', 'Phone');
-			linkNode(phone, mainframe);
-			
-			var host = node(730, 225, 'host.png', 'Pc');
-			linkNode(host, mainframe);
-			
-			var router2 = node(706, 282, 'router2.png', 'STB');
-			router2.alarm = "1 W";
-			router2.alarmColor = '0,255,0';
-			linkNode(router2, mainframe);
-			
-			var terminal = node(669, 326, 'terminal.png', 'IPTV/SDV');
-			linkNode(terminal, router2);
-			
-			var modem = node(623, 49, 'modem.png', 'Modem');
-			var pc = node(742, 7, 'host.png');
-			var router3 = node(671, 73, 'router2.png');
-			var terminal3 = node(736, 100, 'terminal.png');		
-			
-			linkNode(pc, modem);
-			linkNode(router3, modem);
-			linkNode(terminal3, router3);
 						
-			stage.add(scene);
+			stage.add(scene);  //add scene
 		});
 	</script>
   </head>
 
-<body><center><div id="content"><canvas width="1360" height="600" id="canvas"></canvas></div></center></body></html>
+<body><center><div id="content"><canvas width="1360" height="680" id="canvas"></canvas></div></center></body></html>
