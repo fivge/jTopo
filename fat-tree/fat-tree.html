@@ -13,14 +13,14 @@
 			var canvas = document.getElementById('canvas');
 			var stage = new JTopo.Stage(canvas);
 			//显示工具栏
-			showJTopoToobar(stage);
+//			showJTopoToobar(stage);
 
 			var scene = new JTopo.Scene();	
 			scene.background = './img/bg.jpg';
 			
 			function node(x, y, img, name){
 				var node = new JTopo.Node(name);
-				node.setImage('./img/pstn/' + img, true);				
+				node.setImage('./img/topo/' + img, true);				
 				node.setLocation(x, y);
 				scene.add(node);
 				return node;
@@ -34,8 +34,62 @@
 				return link;
 			}
 			
+            var s01 = node(57, 200, 'gray.png', 's01');
+            var s02 = node(57, 200, 'gray.png', 's02');
+            var s03 = node(57, 200, 'gray.png', 's03');
+            var s04 = node(57, 200, 'gray.png', 's04');
+            
+            var s11 = node(57, 200, 'gray.png', 's01');
+            var s12 = node(57, 200, 'gray.png', 's02');
+            var s13 = node(57, 200, 'gray.png', 's03');
+            var s14 = node(57, 200, 'gray.png', 's04');
+            
+            var s15 = node(57, 200, 'gray.png', 's01');
+            var s16 = node(57, 200, 'gray.png', 's02');
+            var s17 = node(57, 200, 'gray.png', 's03');
+            var s18 = node(57, 200, 'gray.png', 's04');
+            
+            var s21 = node(57, 200, 'gray.png', 's01');
+            var s22 = node(57, 200, 'gray.png', 's02');
+            var s23 = node(57, 200, 'gray.png', 's03');
+            var s24 = node(57, 200, 'gray.png', 's04');
+            
+            var s25 = node(57, 200, 'gray.png', 's01');
+            var s26 = node(57, 200, 'gray.png', 's02');
+            var s27 = node(57, 200, 'gray.png', 's03');
+            var s28 = node(57, 200, 'gray.png', 's04');
+            
+            var h11 = node(200, 500, 'blue.png', 'h11');
+            var h12 = node(260, 500, 'blue.png', 'h12');
+            var h13 = node(320, 500, 'blue.png', 'h13');
+            var h14 = node(380, 500, 'blue.png', 'h14');
+            var h21 = node(440, 500, 'blue.png', 'h15');
+            var h22 = node(500, 500, 'blue.png', 'h16');
+            var h23 = node(560, 500, 'blue.png', 'h17');
+            var h24 = node(620, 500, 'blue.png', 'h18');
+            var h31 = node(380, 500, 'blue.png', 'h14');
+            var h32 = node(440, 500, 'blue.png', 'h15');
+            var h33 = node(500, 500, 'blue.png', 'h16');
+            var h34 = node(560, 500, 'blue.png', 'h17');
+            var h41 = node(620, 500, 'blue.png', 'h18');
+            var h42 = node(380, 500, 'blue.png', 'h14');
+            var h43 = node(440, 500, 'blue.png', 'h15');
+            var h44 = node(500, 500, 'blue.png', 'h16');
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
 			var s1 = node(49, 41, 'satellite_antenna.png', 'Satellitte Feed');
 			var s2 = node(57, 136, 'antenna.png', 'Off air');
+            var s22 = node(57, 136, 'antenna.png', 'Off air111');
 			var s3 = node(57, 251, 'msc.png', 'Programing');
 			
 			var r1 = node(143, 43, 'router.png');
@@ -107,4 +161,4 @@
 	</script>
   </head>
 
-<body><center><div id="content"><canvas width="1350" height="600" id="canvas"></canvas></div></center></body></html>
+<body><center><div id="content"><canvas width="1360" height="600" id="canvas"></canvas></div></center></body></html>
