@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+    <meta name="Viewport" content="width=device-width; user-scaleable=no; initial-scale=1.0" />
+    <title>jTopo Demo</title>
+    <script type="text/javascript" src="./js/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="./js/jtopo-0.4.8-min.js"></script>
+    <script type="text/javascript" src="./js/toolbar.js"></script>
+
+    <script id='code'>
+        var stage = null;
+
+        $(document).ready(function() {
+            var canvas = document.getElementById('canvas');
+
+            // 创建一个舞台
+            stage = new JTopo.Stage(canvas);
+            //显示工具栏
+            showJTopoToobar(stage);
+
+            stage.eagleEye.visible = true;
+
+            // 设计一个场景
+            var scene = new JTopo.Scene(stage);
+            scene.backgroundColor = "0,200,0";
+            scene.background = './img/bg.jpg';
+            scene.alpha = 0.1;
+
+            // 向场景增加节点
+            for (var i = 0; i < 500; i++) {
+                var node = new JTopo.Node('' + i);
+                node.shadow = false;
+                node.setSize(30, 30);
+                node.rotate = Math.random(); // 旋转角度
+                node.textPosition = "Middle_Center";
+                var s = 2;
+                var x = Math.random() * stage.width * s - Math.random() * stage.width * s;
+                var y = Math.random() * stage.height * s - Math.random() * stage.height * s;
+                node.setLocation(x, y);
+                node.fillColor = JTopo.util.randomColor();
+
+                scene.add(node);
+            };
+        });
+
+    </script>
+</head>
+
+<body>
+    <center>
+        <div id="content"><canvas width="1350" height="600" id="canvas"></canvas></div>
+    </center>
+</body>
+
+</html>
