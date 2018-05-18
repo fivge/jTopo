@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+    <meta name="Viewport" content="width=device-width; user-scaleable=no; initial-scale=1.0" />
+    <title>jTopo Demo</title>
+    <script type="text/javascript" src="./js/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="./js/jtopo-0.4.8-min.js"></script>
+    <script type="text/javascript" src="./js/toolbar.js"></script>
+
+    <script id='code'>
+        $(document).ready(function() {
+            var canvas = document.getElementById('canvas');
+            var stage = new JTopo.Stage(canvas);
+            //显示工具栏
+            showJTopoToobar(stage);
+
+            var scene = new JTopo.Scene();
+            scene.shadow = false;
+            scene.background = './img/bg.jpg';
+            stage.add(scene);
+
+            var nodes = [];
+            // 圆心节点
+            var circleNode = new JTopo.CircleNode();
+            circleNode.fillStyle = JTopo.util.randomColor();
+            scene.add(circleNode);
+
+            // 三个控制点
+            for (var i = 0; i < 3; i++) {
+                var node = new JTopo.Node();
+                node.fillStyle = JTopo.util.randomColor();
+                node.setLocation(100 + Math.random() * 500, 100 + Math.random() * 400);
+                scene.add(node);
+                nodes.push(node);
+            }
+            for (var i = 0; i < nodes.length; i++) {
+                scene.add(new JTopo.Link(circleNode, nodes[i]));
+            }
+
+            // 定义效果
+            var effect = JTopo.Effect.spring();
+
+            // 效果作用对象
+            for (var i = 0; i < nodes.length; i++) {
+                // 圆心节点同时于三个控制节点产生弹性
+                effect.addNode(circleNode, nodes[i]);
+            }
+
+            // 播放
+            effect.play();
+        });
+
+    </script>
+</head>
+
+<body>
+    <center>
+        <div id="content"><canvas width="1350" height="600" id="canvas"></canvas></div>
+    </center>
+</body>
+
+</html>

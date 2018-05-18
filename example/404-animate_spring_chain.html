@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+    <meta name="Viewport" content="width=device-width; user-scaleable=no; initial-scale=1.0" />
+    <title>jTopo Demo</title>
+    <script type="text/javascript" src="./js/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="./js/jtopo-0.4.8-min.js"></script>
+    <script type="text/javascript" src="./js/toolbar.js"></script>
+
+    <script id='code'>
+        $(document).ready(function() {
+            var canvas = document.getElementById('canvas');
+            var stage = new JTopo.Stage(canvas);
+            //显示工具栏
+            showJTopoToobar(stage);
+
+            var scene = new JTopo.Scene();
+            stage.frames = 24;
+            scene.shadow = true;
+            scene.background = './img/bg.jpg';
+            stage.add(scene);
+
+            var nodes = [];
+            for (var i = 0; i < 5; i++) {
+                var node = new JTopo.CircleNode();
+                node.radius = 20;
+                node.fillStyle = JTopo.util.randomColor();
+                node.setLocation(400, 200);
+                scene.add(node);
+                nodes.push(node);
+            }
+
+            var links = [];
+            for (var i = 1; i < nodes.length; i++) {
+                var link = new JTopo.Link(nodes[i - 1], nodes[i]);
+                scene.add(link);
+                links.push(link);
+            }
+
+            // 定义效果
+            var effect = JTopo.Effect.spring({
+                grivity: 9, // 引力大小
+                spring: 0.4, // 弹性系数
+                friction: 0.3 // 摩擦系数
+            });
+
+            // 效果作用对象
+            for (var i = 1; i < nodes.length; i++) {
+                effect.addNode(nodes[i - 1], nodes[i]);
+            }
+
+            // 播放
+            effect.play();
+        });
+
+    </script>
+</head>
+
+<body>
+    <center>
+        <div id="content"><canvas width="1350" height="600" id="canvas"></canvas></div>
+    </center>
+</body>
+
+</html>

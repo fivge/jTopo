@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+    <meta name="Viewport" content="width=device-width; user-scaleable=no; initial-scale=1.0" />
+    <title>jTopo Demo</title>
+    <script type="text/javascript" src="./js/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="./js/jtopo-0.4.8-min.js"></script>
+    <script type="text/javascript" src="./js/toolbar.js"></script>
+
+    <script id='code'>
+        $(document).ready(function() {
+            var canvas = document.getElementById('canvas');
+            var stage = new JTopo.Stage(canvas);
+            //显示工具栏
+            showJTopoToobar(stage);
+
+            var scene = new JTopo.Scene();
+            scene.shadow = true;
+            scene.background = './img/bg.jpg';
+            stage.add(scene);
+
+            var nodes = [];
+            for (var i = 0; i < 9; i++) {
+                var x = Math.ceil(Math.random() * 600);
+                var y = Math.ceil(Math.random() * 400);
+                var node = new JTopo.CircleNode();
+                node.radius = 25;
+                node.fillColor = JTopo.util.randomColor();
+                node.setLocation(x, y);
+                scene.add(node);
+                nodes.push(node);
+            }
+
+            var links = [];
+            for (var i = 1; i < nodes.length; i++) {
+                var link = new JTopo.Link(nodes[i - 1], nodes[i]);
+                link.strokeColor = JTopo.util.randomColor();
+                link.lineWidth = Math.ceil(15 * Math.random()) + 1;
+                scene.add(link);
+                links.push(link);
+            }
+
+            // 首尾相连
+            var link = new JTopo.Link(nodes[nodes.length - 1], nodes[0]);
+            link.strokeColor = JTopo.util.randomColor();
+            link.lineWidth = Math.ceil(15 * Math.random()) + 1;
+            scene.add(link);
+            links.push(link);
+
+            // 定义效果
+            var effect = JTopo.Effect.spring({
+                minLength: 200 // 节点之间最短距离
+            });
+
+            // 效果作用对象
+            for (var i = 1; i < nodes.length; i++) {
+                // 相互作用
+                effect.addNode(nodes[i - 1], nodes[i]);
+                effect.addNode(nodes[i], nodes[i - 1]);
+            }
+
+            // 播放
+            effect.play();
+        });
+
+    </script>
+</head>
+
+<body>
+    <center>
+        <div id="content"><canvas width="1350" height="600" id="canvas"></canvas></div>
+    </center>
+</body>
+
+</html>
