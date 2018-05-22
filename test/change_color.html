@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+    <meta name="Viewport" content="width=device-width; user-scaleable=no; initial-scale=1.0" />
+    <title>jTopo Demo</title>
+    <script type="text/javascript" src="./js/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="./js/jtopo-0.4.8-min.js"></script>
+    <script type="text/javascript" src="./js/toolbar.js"></script>
+
+    <script id='code'>
+        $(document).ready(function() {
+            var canvas = document.getElementById('canvas');
+            var stage = new JTopo.Stage(canvas);
+            //显示工具栏
+            showJTopoToobar(stage);
+
+            var scene = new JTopo.Scene();
+            stage.frames = 24;
+            scene.background = './img/bg.jpg';
+            stage.add(scene);
+
+            function create_node(x, y, name) {
+                var node = new JTopo.CircleNode(name);
+                node.radius = 20;
+                node.fillColor = JTopo.util.randomColor();
+                node.setLocation(x, y);
+                scene.add(node);
+                return node;
+            }
+
+            // 节点
+            var targetNode = create_node(400, 200, 'target');
+            var node = create_node(400, 200, 'node');
+
+            // 连线
+            scene.add(new JTopo.Link(targetNode, node));
+
+            // 弹性效果（引力、摩擦系数)
+            var effect = JTopo.Effect.spring({
+                grivity: 10 // 引力 (可以为负值)
+            })
+
+            // 效果作用对象(node节点以targetNode为目标，产生弹性效果)
+            effect.addNode(node, targetNode);
+
+            // 播放
+            effect.play();
+        });
+
+    </script>
+</head>
+
+<body>
+    <center>
+        <div id="content"><canvas width="1350" height="600" id="canvas"></canvas></div>
+    </center>
+</body>
+
+</html>
